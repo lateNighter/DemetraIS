@@ -21,12 +21,13 @@ export const Calendar = (id) => ({
         console.log('click'); 
         console.log(el); 
     },
-    bindData(events) {
+    bindData(events) { 
         this.data = events.sort((a,b) => {
             if ( a.time < b.time ) return -1;
             if ( a.time > b.time ) return 1;
             return 0;
         });
+        // this.data = events;
         // var unique = this.data.reduceRight(function (acc, curr) {
         //     var flag = true;
         //     acc.forEach(element => {

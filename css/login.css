@@ -435,6 +435,7 @@ p.drugCount{
   right: 10px;
   top: 0px;
   width: 20%;
+  padding: 6px 20px 6px 40px;
 }
 
 
@@ -494,4 +495,8 @@ p.drugCount{
 }
 .tabs__content.is-active {
   display: block;
+}
+
+#change_pwd{
+  display: none;
 }

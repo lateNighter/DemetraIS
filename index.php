@@ -69,24 +69,30 @@
 				</div>
             </div>
             <div class="horizontal-gradient"></div>
-            <div class="form-footer1">
-                <a href="">Забыли пароль?</a>
+            <div class="form-footer1" id="footer_pwd">
+                <a href="javascript:forgot_password()">Сменить пароль</a>
             </div>
             <div class="submit">
                 <button class="appBtn">Войти</button>
                 <p>или нажмите <b>enter</b></p>
             </div>
         </form>
-
+		<form id="change_pwd" action="forgot_pwd.php" method="POST"></form>
         
     </main>
-    <!-- <footer>
-        <p>справка контакты чето важное лалала</p>
-        <p>
-            <a href=""><img src="inst.png" ></a>
-            <a href="https://vk.com/akovalinskaya"><img src="vk.png"></a>
-        </p>
-    </footer> -->
 	</div>
 </body>
+
+<script src="js/jquery-3.6.0.min.js"></script>
+<script>
+	function forgot_password(){
+		var footer = $('#footer_pwd');
+		footer.append('<div class="box" form="change_pwd"> <label form="change_pwd">Логин</label> <input form="change_pwd" placeholder="username" name="username" type="text" /> </div>');
+		footer.append('<div class="box" form="change_pwd"> <label form="change_pwd">Старый пароль</label> <input form="change_pwd" placeholder="password" name="password" type="password" /> </div> ');
+		footer.append('<div class="box" form="change_pwd"> <label form="change_pwd">Новый пароль</label> <input form="change_pwd" placeholder="newpassword" name="newpassword" type="password" /> </div>');
+		footer.append('<input type="submit" form="change_pwd" style="margin: 10px;"></input>');
+
+	}
+</script>
+
 </html>

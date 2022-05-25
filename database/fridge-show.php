@@ -2,7 +2,7 @@
 
 include('connection.php');
 
-$stmt = $conn->prepare("SELECT * FROM fridge ORDER BY rec_date DESC");
+$stmt = $conn->prepare("select f.id, f.rec_date, f.temperature from fridge f inner join (select max(id) as maxid from fridge group by rec_date) maxt on (f.id = maxt.maxid);");//SELECT * FROM fridge ORDER BY rec_date DESC
 $stmt->execute();
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $arr = $stmt->fetchAll();

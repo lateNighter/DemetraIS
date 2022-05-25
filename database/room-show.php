@@ -2,7 +2,7 @@
 
 include('connection.php');
 
-$stmt = $conn->prepare("SELECT * FROM room ORDER BY rec_date DESC");
+$stmt = $conn->prepare("select r.id, r.rec_date, r.temperature, r.humidity from room r inner join (select max(id) as maxid from room group by rec_date) maxt on (r.id = maxt.maxid);");
 $stmt->execute();
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $arr = $stmt->fetchAll();

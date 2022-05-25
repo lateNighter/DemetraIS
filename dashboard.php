@@ -16,7 +16,11 @@
 	<link rel="stylesheet" type="text/css" href="css/login.css">
 	<link rel="icon" href="images/cow.png">
 	<!-- <script src="https://use.fontawesome.com/0c7a3095b5.js"></script> -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+	<link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.35.4/css/bootstrap-dialog.min.css" integrity="sha512-PvZCtvQ6xGBLWHcXnyHD67NTP+a+bNrToMsIdX/NUqhw+npjLDhlMZ/PhSHZN4s9NdmuumcxKHQqbHlGVqc8ow==" crossorigin="anonymous" /> -->
+	<link rel="stylesheet" href="css/bootstrap/bootstrap-dialog.min.css">
+	<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
 </head>
 <body>
 	<header>
@@ -142,7 +146,7 @@
 															<th>Расход</th>
 															<th>Списание ЧО</th>
 															<th>Сотрудник</th>
-															<th>Действие</th>
+															<!-- <th>Действие</th> -->
 														</tr>
 													</thead>
 												</table>
@@ -164,7 +168,7 @@
 													<thead>
 														<tr>												
 															<th>№</th>
-															<th>Дата</th>		
+															<!-- <th>Дата</th>		 -->
 															<th>Наименование препарата</th>
 															<th>Ед измерения</th>
 															<th>Количество</th>
@@ -172,7 +176,8 @@
 														</tr>
 													</thead>
 												</table>
-												<button class="appBtn" style="float: right; margin-top: 15px;">Печать</button>
+												<a class="appBtn" style="float: right; margin-top: 15px; text-decoration: none;" href="javascript:print_act()"  >Печать</a> 
+												<!-- target="_blank" -->
 											</div>
 										</div>
 									</div>	
@@ -247,18 +252,20 @@ $(document).ready(function () {
                     for (var i in result) {
                         tr = $('<tr/>');
                         tr.append("<td>" + (Number(i)+Number(1)) + "</td>");
-                        tr.append("<td>" + new Date(result[i].date).toLocaleDateString() + "</td>");
+                        tr.append("<td class='ctime'>" + new Date(result[i].date).toLocaleDateString() + "</td>");
                         tr.append("<td class='drug_name'>" + result[i].drug_name + "</td>");
                         tr.append("<td>" + result[i].unit + "</td>");
-                        tr.append("<td>" + result[i].amount + "</td>");
+                        tr.append("<td class='amount'>" + result[i].amount + "</td>");
                         tr.append("<td>" + new Date(result[i].expiration).toLocaleDateString() + "</td>");
                         tr.append("<td>" + result[i].serial_n + "</td>");
                         tr.append("<td>" + result[i].note + "</td>");
-						tr.append('<td class="actions"><a href=""> <i class="fa fa-pencil" id="updatedrug" data-histid=' + i +' data-dname=' + result[i].drug_name +'></i> </a></td>');
+						tr.append('<td class="actions"><a href=""> <i class="fa fa-pencil" id="updatereg" data-regid=' + result[i].id + 'data-regdata' + result[i].date +'></i> </a></td>');
                         $(tbody).append(tr);
 
                     }
 					$('#regTable').append(tbody);
+
+					$('#thsort').on('click', SortExp);
                 }
             },
 
@@ -272,58 +279,55 @@ $(document).ready(function () {
     $('#datePicker').on('change', monthChange);
 });
 
-
 // sort by expiration
-$(document).ready(function () {
-	function SortExp(){
-		let count = 0;
-		var table, tr, td, i, txtValue;
-		table = document.getElementById("regTable");
-		tr = table.getElementsByTagName("tr");
-		var arr = [];
-		if (global_reg){
-			arr = global_reg;
-		}
-		console.log(arr);
-		var column = $('#thsort').data('column')
-		var order = $('#thsort').data('order')
-		var text = $('#thsort').html()
-		text = text.substring(0, text.length - 1)
-		if(order == 'desc'){
-			$('#thsort').data('order', "asc")
-			arr = arr.sort((a,b) => a[column] > b[column] ? 1 : -1)
-			text += '&#9660'
-		}else{
-			$('#thsort').data('order', "desc")
-			arr = arr.sort((a,b) => a[column] < b[column] ? 1 : -1)
-			text += '&#9650'
-		}
-		$('#thsort').html(text)
+function SortExp(){
+	let count = 0;
+	var table, tr, td, i, txtValue;
+	table = document.getElementById("regTable");
+	tr = table.getElementsByTagName("tr");
+	var arr = [];
+	if (global_reg){
+		arr = global_reg;
+	}
+	var column = $('#thsort').data('column')
+	var order = $('#thsort').data('order')
+	var text = $('#thsort').html()
+	text = text.substring(0, text.length - 1)
+	if(order == 'desc'){
+		$('#thsort').data('order', "asc")
+		arr = arr.sort((a,b) => a[column] > b[column] ? 1 : -1)
+		text += '&#9660'
+	}else{
+		$('#thsort').data('order', "desc")
+		arr = arr.sort((a,b) => a[column] < b[column] ? 1 : -1)
+		text += '&#9650'
+	}
+	$('#thsort').html(text)
 
-		$("#regTable tbody").html('');
-		var tbody=$('<tbody/>');
-		var tr;
-		for (var i in arr) {
-			tr = $('<tr/>');
-			tr.append("<td>" + (Number(i)+Number(1)) + "</td>");
-			tr.append("<td>" + new Date(arr[i].date).toLocaleDateString() + "</td>");
-			tr.append("<td class='drug_name'>" + arr[i].drug_name + "</td>");
-			tr.append("<td>" + arr[i].unit + "</td>");
-			tr.append("<td>" + arr[i].amount + "</td>");
-			tr.append("<td>" + new Date(arr[i].expiration).toLocaleDateString() + "</td>");
-			tr.append("<td>" + arr[i].serial_n + "</td>");
-			tr.append("<td>" + arr[i].note + "</td>");
-			tr.append('<td class="actions"><a href=""> <i class="fa fa-pencil" id="updatedrug" data-histid=' + i +' data-dname=' + arr[i].drug_name +'></i> </a></td>');
-			$(tbody).append(tr);
-
-		}
-		$('#regTable').append(tbody);
-
+	$("#regTable tbody").html('');
+	var tbody=$('<tbody/>');
+	var tr;
+	for (var i in arr) {
+		tr = $('<tr/>');
+		tr.append("<td>" + (Number(i)+Number(1)) + "</td>");
+		tr.append("<td class='ctime'>" + new Date(arr[i].date).toLocaleDateString() + "</td>");
+		tr.append("<td class='drug_name'>" + arr[i].drug_name + "</td>");
+		tr.append("<td>" + arr[i].unit + "</td>");
+		tr.append("<td class='amount'>" + arr[i].amount + "</td>");
+		tr.append("<td>" + new Date(arr[i].expiration).toLocaleDateString() + "</td>");
+		tr.append("<td>" + arr[i].serial_n + "</td>");
+		tr.append("<td>" + arr[i].note + "</td>");
+		tr.append('<td class="actions"><a href=""> <i class="fa fa-pencil" id="updatereg" data-regid=' + arr[i].id + 'data-regdata' + arr[i].date +'></i> </a></td>');
+		$(tbody).append(tr);
 
 	}
-	$('#thsort').on('click', SortExp);
-});
+	$('#regTable').append(tbody);
+
+
+}
+$('#thsort').on('click', SortExp);
 </script>
+
 <script>
 $(document).ready(function () {
 	monthChange1();
@@ -352,7 +356,7 @@ $(document).ready(function () {
                     tr.append("<th>Расход</th>");
                     tr.append("<th>Списание ЧО</th>");
                     tr.append("<th>Сотрудник</th>");
-                    tr.append("<th>Действие</th>");
+                    // tr.append("<th>Действие</th>");
 					thead.append(tr);
                     $('#regTable1').append(thead);
                     for (var i in result) {
@@ -365,7 +369,7 @@ $(document).ready(function () {
                         tr.append("<td>" + result[i].expense + "</td>");
                         tr.append("<td>" + result[i].emergency + "</td>");
                         tr.append("<td>" + result[i].name + "</td>");
-						tr.append('<td class="actions"><a href=""> <i class="fa fa-pencil" id="updatedrug" data-histid=' + i +' data-dname=' + result[i].drug_name +'></i> </a></td>');
+						// tr.append('<td class="actions"><a href=""> <i class="fa fa-pencil" id="updatedrug" data-histid=' + i +' data-dname=' + result[i].drug_name +'></i> </a></td>');
                         $('#regTable1').append(tr);
 
                     }
@@ -403,7 +407,7 @@ $(document).ready(function () {
                     var tr;
                     tr = $('<tr/>');
                     tr.append("<th>№</th>");
-                    tr.append("<th>Дата</th>");
+                    // tr.append("<th>Дата</th>");
                     tr.append("<th>Наименование препарата</th>");
                     tr.append("<th>Ед измерения</th>");
                     tr.append("<th>Количество</th>");
@@ -413,7 +417,7 @@ $(document).ready(function () {
                     for (var i in result) {
                         tr = $('<tr/>');
                         tr.append("<td>" + (Number(i)+Number(1)) + "</td>");
-                        tr.append("<td>" + new Date(result[i].date).toLocaleDateString() + "</td>");
+                        // tr.append("<td>" + new Date(result[i].date).toLocaleDateString() + "</td>");
                         tr.append("<td class='drug_name'>" + result[i].drug_name + "</td>");
                         tr.append("<td>" + result[i].unit + "</td>");
                         tr.append("<td>" + result[i].amount + "</td>");
@@ -433,6 +437,8 @@ $(document).ready(function () {
     $('#datePicker2').on('change', monthChange2);
 });
 </script>
+
+<!-- search by drug name -->
 <script>
 	function myFunction() {
 	let count = 0;
@@ -457,9 +463,93 @@ $(document).ready(function () {
 	}
 </script>
 
-<script>
 
+<!-- update pharm reg -->
+<script>
+	function script(){
+
+
+		this.initialize = function(){
+			this.registerEvents();
+		},
+
+		this.registerEvents = function(){
+			document.addEventListener('click', function(e){
+				targetElement = e.target;
+
+				if(targetElement.id=='updatereg'){
+					e.preventDefault(); 
+					drugName = targetElement.closest('tr').querySelector('td.drug_name').innerHTML;
+					amount = targetElement.closest('tr').querySelector('td.amount').innerHTML;
+					regId = targetElement.dataset.regid;
+					ctime = targetElement.dataset.regdata;
+					BootstrapDialog.confirm({
+						title: 'Update ' + drugName,
+						message: '<form>\
+						  <div class="form-group" style="display: flex; flex-direction: column;">\
+						    <label for="income">Приход:</label>\
+						    <input type="number" class="form-control" id="income" min="0">\
+							<label for="expense">Расход:</label>\
+						    <input type="number" class="form-control" id="expense" min="0">\
+							<label for="emergency">Списание:</label>\
+						    <input type="number" class="form-control" id="emergency" min="0">\
+						  </div>\
+						</form>',
+						callback: function(isUpdate){
+							if(isUpdate){ 
+								$.ajax({
+									method: 'POST',
+									data: {
+										regId: regId,
+										ctime: ctime,
+										d_name: drugName,
+										amount: amount,
+										income: document.getElementById('income').value,
+										expense: document.getElementById('expense').value,
+										emergency: document.getElementById('emergency').value,
+									},
+									url: 'database/update-pharm-reg.php',
+									dataType: 'json',
+									success: function(data){
+										if(data.success){
+											location.reload();
+										} 
+										else{
+											alert(data.message);
+										}
+									}
+								});
+							}
+						}
+					});
+				}
+			});
+		}
+	}	
+
+	var script = new script;
+	script.initialize();
 </script>
 
+<script>
+	function print_act(){
+		// console.log(document.getElementById("regTable2").innerHTML);
+		$.ajax({
+			method: 'POST',
+			data: {
+				table: document.getElementById("regTable2").innerHTML,
+			},
+			url: 'partials/print.php',
+			dataType: 'json',
+			success: function(data){
+				// if(data=='ok'){
+					// location.reload();
+				// } 
+				console.log(data.message);
+				window.open('partials/final_print.php', '_blank');
+			}
+		});
+	}
+</script>
 </body>
 </html>
