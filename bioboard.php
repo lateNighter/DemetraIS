@@ -4,9 +4,7 @@
 	if(!isset($_SESSION['user'])) header('location: index.php');
 	$user = $_SESSION['user'];
 	
-	$drugs = include('database/show-drugs.php');
-	// $regs = include('database/show-pharm-reg.php');
-	// $hists = include('database/show-pharm-hist.php');
+	$drugs = include('database/show-vac.php');
 	$units = array('флак', 'шт', 'банка', 'ампул', 'пач', 'кг', 'упак', 'балон', 'д', 'кор', 'л', 'мл');
 ?>
 <!DOCTYPE html>
@@ -15,10 +13,7 @@
 	<title>Деметра ИС</title>
 	<link rel="stylesheet" type="text/css" href="css/login.css">
 	<link rel="icon" href="images/cow.png">
-	<!-- <script src="https://use.fontawesome.com/0c7a3095b5.js"></script> -->
-	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 	<link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
-	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.35.4/css/bootstrap-dialog.min.css" integrity="sha512-PvZCtvQ6xGBLWHcXnyHD67NTP+a+bNrToMsIdX/NUqhw+npjLDhlMZ/PhSHZN4s9NdmuumcxKHQqbHlGVqc8ow==" crossorigin="anonymous" /> -->
 	<link rel="stylesheet" href="css/bootstrap/bootstrap-dialog.min.css">
 	<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
 </head>
@@ -28,7 +23,7 @@
 		<a href="database/logout.php" id="logoutBtn"><i class="fa fa-sign-out" aria-hidden="true"></i> Выход</a>
     </header>
 	<div id="dashboardMainContainer">
-		<?php include('partials/app-sidebar.php') ?>
+		<?php include('partials/app-sidebar1.php') ?>
 		<div class="dasboard_content_container" id="dasboard_content_container">
 			<div class="dashboard_content">
 				<div class="dashboard_content_main">
@@ -50,7 +45,7 @@
 									<div class="column column-5">
 										<h1 class="section_header"><i class="fa fa-plus"></i> Добавить операцию</h1>
 										<div id="drugAddFormContainer">						
-											<form action="database/add-pharm-reg.php" method="POST" class="appForm">
+											<form action="database/add-bio-reg.php" method="POST" class="appForm">
 												<div class="appFormInputContainer">
 													<label>Название препарата</label>
 													<input class="appFormInput" list="drugs" id="drug_name" name="drug_name" required>
@@ -193,9 +188,7 @@
 
 <script src="js/jquery-3.6.0.min.js"></script>
 
-<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
 <script src="js/bootstrap.min.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.35.4/js/bootstrap-dialog.js" integrity="sha512-AZ+KX5NScHcQKWBfRXlCtb+ckjKYLO1i10faHLPXtGacz34rhXU8KM4t77XXG/Oy9961AeLqB/5o0KTJfy2WiA==" crossorigin="anonymous"></script> -->
 <script src="js/bootstrap-dialog.min.js"></script>
 <script src="js/search.js"></script>
 <script src="js/moment-with-locales.min.js"></script>
@@ -226,7 +219,7 @@ $(document).ready(function () {
         $.ajax({
 
             type: "POST",
-            url: "database/show-pharm-reg.php",
+            url: "database/show-bio-reg.php",
             data: { year1: year, month1: month },
 			async: false,
             success: function (result) {
@@ -340,7 +333,7 @@ $(document).ready(function () {
         $.ajax({
 
             type: "POST",
-            url: "database/show-pharm-hist.php",
+            url: "database/show-bio-hist.php",
             data: { year1: year, month1: month },
 			async: false,
             success: function (result) {
@@ -398,7 +391,7 @@ $(document).ready(function () {
         $.ajax({
 
             type: "POST",
-            url: "database/show-pharm-act.php",
+            url: "database/show-bio-act.php",
             data: { year1: year, month1: month },
 			async: false,
             success: function (result) {
@@ -466,7 +459,7 @@ $(document).ready(function () {
 </script>
 
 
-<!-- update pharm reg -->
+<!-- update bio reg -->
 <script>
 	function script(){
 
@@ -510,7 +503,7 @@ $(document).ready(function () {
 										expense: document.getElementById('expense').value,
 										emergency: document.getElementById('emergency').value,
 									},
-									url: 'database/update-pharm-reg.php',
+									url: 'database/update-bio-reg.php',
 									dataType: 'json',
 									success: function(data){
 										if(data.success){

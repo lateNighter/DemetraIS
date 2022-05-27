@@ -5,7 +5,7 @@ include('connection.php');
 $month = $_POST['month1'];
 $year = $_POST['year1']; 
 
-$stmt = $conn->prepare("SELECT * FROM pharm_reg WHERE YEAR(date)='".$year."' and MONTH(date)='".$month."' ORDER BY date DESC"); //YEAR(date)='".$year."' and MONTH(date)='".$month."'
+$stmt = $conn->prepare("SELECT * FROM bio_reg WHERE YEAR(date)='".$year."' and MONTH(date)='".$month."' ORDER BY date DESC"); //YEAR(date)='".$year."' and MONTH(date)='".$month."'
 $stmt->execute();
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $lst = $stmt->fetchAll();
@@ -25,13 +25,13 @@ if (count($lst)==0&&$curmonth==$month&&$curyear==$year){
     }
 
     $command = "INSERT INTO 
-								pharm_reg(date, drug_name, unit, amount, expiration, serial_n, note) 
-							SELECT sysdate(),drug_name,unit,amount,expiration,serial_n,note FROM pharm_reg WHERE YEAR(date)='".$year1."' and MONTH(date)='".$month1."' and amount>0";
+								bio_reg(date, drug_name, unit, amount, expiration, serial_n, note) 
+							SELECT sysdate(),drug_name,unit,amount,expiration,serial_n,note FROM bio_reg WHERE YEAR(date)='".$year1."' and MONTH(date)='".$month1."' and amount>0";
         
 	include('connection.php');
 	$conn->exec($command);
 
-    $stmt = $conn->prepare("SELECT * FROM pharm_reg WHERE YEAR(date)='".$year."' and MONTH(date)='".$month."' ORDER BY date DESC"); //YEAR(date)='".$year."' and MONTH(date)='".$month."'
+    $stmt = $conn->prepare("SELECT * FROM bio_reg WHERE YEAR(date)='".$year."' and MONTH(date)='".$month."' ORDER BY date DESC"); //YEAR(date)='".$year."' and MONTH(date)='".$month."'
     $stmt->execute();
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
     $lst = $stmt->fetchAll();

@@ -20,11 +20,11 @@
 		   ]);
 		   return;
 		}
-		$sql = "UPDATE pharm_reg SET amount=? WHERE id=?";
+		$sql = "UPDATE bio_reg SET amount=? WHERE id=?";
 		include('connection.php');
 		$conn->prepare($sql)->execute([$amount, $reg_id]);
 
-		$command2 = "INSERT INTO pharm_history(date, user_id, pharm_reg_id, income, expense, emergency) VALUES (NOW(), ?, ?, ?, ?, ?)";
+		$command2 = "INSERT INTO bio_history(date, user_id, bio_reg_id, income, expense, emergency) VALUES (NOW(), ?, ?, ?, ?, ?)";
         // $command2->execute([$user, $reg_id, $income, $expense, $emergency]);
 		$conn->prepare($command2)->execute([$user, $reg_id, $income, $expense, $emergency]);
 

@@ -8,7 +8,7 @@
 				<a href="./dashboard.php" ><i class="fa fa-paw" aria-hidden="true"></i> <span class="menuText">Аптека</span></a>
 			</li>
 			<li class="menuActive">
-				<a href="./drug-add.php"><i class="fa fa-flask" aria-hidden="true"></i> <span class="menuText">Вакцины</span></a>
+				<a href="./bioboard.php"><i class="fa fa-flask" aria-hidden="true"></i> <span class="menuText">Вакцины</span></a>
 			</li>
 			<li>
 				<a href="./room.php"><i class="fa fa-home" aria-hidden="true"></i> <span class="menuText">Помещение</span></a>
