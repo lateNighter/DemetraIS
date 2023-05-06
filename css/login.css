@@ -17,7 +17,7 @@ body{
 header{
     background-color: #FF9F1C; /*3F5959*/
     color: white;
-    padding: 10px;
+    padding: 8px;
     display:flex;
     flex-direction: row;
     align-items: center;
@@ -276,7 +276,7 @@ div.dashboard_content{
 div.dashboard_content_main{
 	background: transparent;
 	min-height: 800px;
-	height:100%;
+	/* height:100%; */
   /* margin: 0 auto; */
 }
 
@@ -302,7 +302,7 @@ div.dashboard_content_main{
   color: #2EC4B6;
   border-bottom: 1px solid #2EC4B6;
   /* border-left: 3px solid #2EC4B6; */
-  padding: 5px;
+  padding: 0px;
   margin-bottom: 5px;
 }
 
@@ -335,16 +335,14 @@ form input.appFormInput{
   text-indent: 10px;
 }
 div.appFormInputContainer{
-	margin: 10px ;
+	margin: 8px ;
 }
-div#drugAddFormContainer{
-	padding-top: 10px;
-}
+
 button.appBtn{
   border-bottom: 5px solid #FF9F1C;
   background-color: #FFBF69;
-  padding: 10px 15px;
-  margin: 10px;
+  padding: 8px 15px;
+  margin: 8px;
   margin-top: 0;
   color: white;
   border-top: none;
@@ -433,7 +431,7 @@ p.drugCount{
 .section_header input{
   position: absolute;
   right: 10px;
-  top: 0px;
+  top: -10px;
   width: 20%;
   padding: 6px 20px 6px 40px;
 }
